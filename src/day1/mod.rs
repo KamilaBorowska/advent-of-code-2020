@@ -40,7 +40,7 @@ mod test {
     test!(
         DAY1.part1,
         fn empty_input_fails() {
-            assert!((DAY1.part2)("").is_err());
+            assert!((DAY1.part1)("").is_err());
         }
         example: lines!(1721 979 366 299 675 1456) => 514579,
         input: 876459,
