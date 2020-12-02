@@ -5,4 +5,5 @@ authors = ["Konrad Borowski <konrad@borowski.pw>"]
 edition = "2018"
 
 [dependencies]
+nom = "6.0.1"
 structopt = "0.3.21"

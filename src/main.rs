@@ -3,6 +3,7 @@ use std::io::{self, Read, Write};
 use structopt::StructOpt;
 
 mod day1;
+mod day2;
 #[cfg(test)]
 mod testmacros;
 
@@ -11,7 +12,7 @@ struct Solution {
     part2: fn(&str) -> Result<String, Box<dyn Error + '_>>,
 }
 
-const SOLUTIONS: &[Solution] = &[day1::DAY1];
+const SOLUTIONS: &[Solution] = &[day1::DAY1, day2::DAY2];
 
 #[derive(StructOpt)]
 struct Options {
