@@ -31,7 +31,10 @@ impl<'a> Rule<'a> {
     }
 }
 
-fn count_password(input: &str, f: impl Fn(Rule) -> bool) -> Result<String, Box<dyn Error + '_>> {
+fn count_valid_passwords(
+    input: &str,
+    f: impl Fn(Rule) -> bool,
+) -> Result<String, Box<dyn Error + '_>> {
     let mut valid_passwords = 0;
     for line in input.lines() {
         let rule = Rule::parse(line)?;
@@ -42,7 +45,7 @@ fn count_password(input: &str, f: impl Fn(Rule) -> bool) -> Result<String, Box<d
 
 pub(super) const DAY2: Solution = Solution {
     part1: |input| {
-        count_password(input, |rule| {
+        count_valid_passwords(input, |rule| {
             let char_count = rule
                 .password
                 .chars()
@@ -52,7 +55,7 @@ pub(super) const DAY2: Solution = Solution {
         })
     },
     part2: |input| {
-        count_password(
+        count_valid_passwords(
             input,
             |Rule {
                  first,
