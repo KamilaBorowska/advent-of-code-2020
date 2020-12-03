@@ -41,8 +41,8 @@ macro_rules! test {
         mod $part {
             #[allow(unused_imports)]
             use crate::lines;
-            #[allow(unused_imports)]
             use super::super::$ident;
+            use super::*;
             super::test!(__internal $ident.$part $($tests)*);
         }
     };

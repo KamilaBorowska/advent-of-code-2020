@@ -83,12 +83,12 @@ mod test {
     );
     test!(
         DAY3.part1,
-        example: super::EXAMPLE => 7,
+        example: EXAMPLE => 7,
         input: 294,
     );
     test!(
         DAY3.part2,
-        example: super::EXAMPLE => 336,
+        example: EXAMPLE => 336,
         input: 5_774_564_250,
     );
 }
