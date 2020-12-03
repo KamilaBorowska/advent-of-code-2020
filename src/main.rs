@@ -28,13 +28,12 @@ fn main() -> Result<(), Box<dyn Error>> {
     let solution = SOLUTIONS
         .get(usize::from(opt.day) - 1)
         .ok_or("Day number out of range")?;
-    let input = match opt.input {
-        Some(input) => input,
-        None => {
-            let mut input = String::new();
-            io::stdin().read_to_string(&mut input)?;
-            input
-        }
+    let input = if let Some(input) = opt.input {
+        input
+    } else {
+        let mut input = String::new();
+        io::stdin().read_to_string(&mut input)?;
+        input
     };
     writeln!(
         io::stdout(),
