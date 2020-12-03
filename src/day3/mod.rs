@@ -48,17 +48,19 @@ pub(super) const DAY3: Solution = Solution {
     part2: |input| {
         let map = Map::parse(input);
         let slopes = [(1, 1), (3, 1), (5, 1), (7, 1), (1, 2)];
-        let product = slopes.iter().fold(1, |a, (x_mod, y_mod)| {
-            let mut x = 0;
-            let mut y = 0;
-            let iter = iter::from_fn(|| {
-                x += x_mod;
-                y += y_mod;
-                map.get(x, y)
-            });
-            let trees: u64 = iter.map(u64::from).sum();
-            a * trees
-        });
+        let product: u64 = slopes
+            .iter()
+            .map(|(x_mod, y_mod)| -> u64 {
+                let mut x = 0;
+                let mut y = 0;
+                let iter = iter::from_fn(|| {
+                    x += x_mod;
+                    y += y_mod;
+                    map.get(x, y)
+                });
+                iter.map(u64::from).sum()
+            })
+            .product();
         Ok(product.to_string())
     },
 };
