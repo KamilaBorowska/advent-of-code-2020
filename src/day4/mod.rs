@@ -45,7 +45,9 @@ pub(super) const DAY4: Solution = Solution {
                                 && value.starts_with('#')
                                 && value[1..].chars().all(|c| c.is_digit(16))
                         }
-                        "ecl" => ["amb", "blu", "brn", "gry", "grn", "hzl", "oth"].contains(&value),
+                        "ecl" => {
+                            matches!(value, "amb" | "blu" | "brn" | "gry" | "grn" | "hzl" | "oth")
+                        }
                         "pid" => value.len() == 9 && value.chars().all(|c| c.is_digit(10)),
                         _ => unreachable!(),
                     }
