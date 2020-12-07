@@ -22,7 +22,7 @@ pub(super) const DAY5: Solution = Solution {
     },
     part2: |input| {
         let mut seats: Vec<u16> = input.lines().map(parse).collect();
-        seats.sort();
+        seats.sort_unstable();
         let solution = seats
             .windows(2)
             .find(|window| window[0] + 1 != window[1])
