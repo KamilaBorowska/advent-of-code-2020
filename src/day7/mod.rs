@@ -15,7 +15,7 @@ fn int(input: &str) -> IResult<&str, usize> {
     map_res(take_while1(|c: char| c.is_digit(10)), str::parse)(input)
 }
 
-fn take_until_and_consume(search_tag: &str) -> impl FnMut(&str) -> IResult<&str, &str> + '_ {
+fn take_until_and_consume(search_tag: &str) -> impl Fn(&str) -> IResult<&str, &str> + '_ {
     move |input| terminated(take_until(search_tag), tag(search_tag))(input)
 }
 
