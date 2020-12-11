@@ -87,7 +87,9 @@ pub(super) const DAY11: Solution = Solution {
                     let seat = new_map.get_mut(x, y).unwrap();
                     *seat = match *seat {
                         SeatState::Empty if occupied(x, y).next().is_none() => SeatState::Occupied,
-                        SeatState::Occupied if occupied(x, y).nth(3).is_some() => SeatState::Empty,
+                        SeatState::Occupied if occupied(x, y).nth(4 - 1).is_some() => {
+                            SeatState::Empty
+                        }
                         state => state,
                     };
                 }
@@ -133,7 +135,9 @@ pub(super) const DAY11: Solution = Solution {
                     let seat = new_map.get_mut(x, y).unwrap();
                     *seat = match *seat {
                         SeatState::Empty if occupied(x, y).next().is_none() => SeatState::Occupied,
-                        SeatState::Occupied if occupied(x, y).nth(4).is_some() => SeatState::Empty,
+                        SeatState::Occupied if occupied(x, y).nth(5 - 1).is_some() => {
+                            SeatState::Empty
+                        }
                         state => state,
                     };
                 }
