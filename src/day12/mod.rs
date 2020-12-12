@@ -17,8 +17,8 @@ pub(super) const DAY12: Solution = Solution {
             let action = chars.next().ok_or("Missing action")?;
             let value: i32 = chars.as_str().parse()?;
             match action {
-                'N' => position.re += value,
-                'S' => position.re -= value,
+                'N' => position += value,
+                'S' => position -= value,
                 'E' => position.im += value,
                 'W' => position.im -= value,
                 'L' => direction *= rotate(-value)?,
@@ -37,8 +37,8 @@ pub(super) const DAY12: Solution = Solution {
             let action = chars.next().ok_or("Missing action")?;
             let value: i32 = chars.as_str().parse()?;
             match action {
-                'N' => waypoint.re += value,
-                'S' => waypoint.re -= value,
+                'N' => waypoint += value,
+                'S' => waypoint -= value,
                 'E' => waypoint.im += value,
                 'W' => waypoint.im -= value,
                 'L' => waypoint *= rotate(-value)?,
