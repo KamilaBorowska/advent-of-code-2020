@@ -24,16 +24,16 @@ fn write_ram(
     memory: &mut HashMap<usize, u64>,
     address: usize,
     mut bit_mask: usize,
-    shift_mask: usize,
+    floating_mask: usize,
     value: u64,
 ) {
     while bit_mask != (1 << 36) {
-        if bit_mask & shift_mask != 0 {
+        if bit_mask & floating_mask != 0 {
             write_ram(
                 memory,
                 address & !bit_mask,
                 bit_mask << 1,
-                shift_mask,
+                floating_mask,
                 value,
             );
         }
