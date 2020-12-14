@@ -22,7 +22,7 @@ fn assignment(input: &str) -> Result<(usize, u64), Box<dyn Error + '_>> {
 
 fn write_ram(
     memory: &mut HashMap<usize, u64>,
-    mut address: usize,
+    address: usize,
     mut bit_mask: usize,
     shift_mask: usize,
     value: u64,
@@ -36,7 +36,6 @@ fn write_ram(
                 shift_mask,
                 value,
             );
-            address |= bit_mask;
         }
         bit_mask <<= 1;
     }
@@ -91,6 +90,7 @@ pub(super) const DAY14: Solution = Solution {
                             or_mask |= 1;
                         }
                         'X' => {
+                            or_mask |= 1;
                             shift_mask |= 1;
                         }
                         _ => return Err("Unrecognized bitmask character".into()),
