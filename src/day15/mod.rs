@@ -1,32 +1,22 @@
 use crate::Solution;
-use fnv::FnvHashMap;
-use std::collections::hash_map::Entry;
+use std::convert::TryFrom;
 use std::error::Error;
 
 fn run_game(input: &str, steps: u32) -> Result<String, Box<dyn Error>> {
-    let mut split = input.split(',').map(str::parse);
+    let mut split = input.split(',').map(str::parse::<u32>);
     let mut last_num = split
         .next_back()
         .ok_or("No starting numbers were provided")??;
-    let mut map = FnvHashMap::default();
+    let mut map = vec![0; usize::try_from(steps)?];
     let mut so_far = 0;
     for number in split {
-        map.insert(number?, so_far);
         so_far += 1;
+        map[usize::try_from(number?)?] = so_far;
     }
-    for i in so_far..steps - 1 {
-        last_num = match map.entry(last_num) {
-            Entry::Occupied(mut occupied) => {
-                let reference = occupied.get_mut();
-                let value = i - *reference;
-                *reference = i;
-                value
-            }
-            Entry::Vacant(vacant) => {
-                vacant.insert(i);
-                0
-            }
-        };
+    for i in so_far + 1..steps {
+        let access = &mut map[usize::try_from(last_num)?];
+        last_num = if *access == 0 { 0 } else { i - *access };
+        *access = i;
     }
     Ok(last_num.to_string())
 }
