@@ -10,9 +10,9 @@ fn run_game(input: &str, steps: u32) -> Result<String, Box<dyn Error>> {
         .ok_or("No starting numbers were provided")??;
     let mut map = FnvHashMap::default();
     let mut so_far = 0;
-    for (i, number) in (0..).zip(split) {
+    for number in split {
+        map.insert(number?, so_far);
         so_far += 1;
-        map.insert(number?, i);
     }
     for i in so_far..steps - 1 {
         last_num = match map.entry(last_num) {
