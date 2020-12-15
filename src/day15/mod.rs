@@ -8,12 +8,12 @@ fn run_game(input: &str, steps: u32) -> Result<String, Box<dyn Error>> {
         .next_back()
         .ok_or("No starting numbers were provided")??;
     let mut map = vec![0; usize::try_from(steps)?];
-    let mut so_far = 0;
+    let mut so_far = 1;
     for number in split {
-        so_far += 1;
         map[usize::try_from(number?)?] = so_far;
+        so_far += 1;
     }
-    for i in so_far + 1..steps {
+    for i in so_far..steps {
         let access = &mut map[usize::try_from(last_num)?];
         last_num = if *access == 0 { 0 } else { i - *access };
         *access = i;
