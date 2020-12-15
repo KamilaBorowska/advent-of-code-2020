@@ -1,11 +1,11 @@
 use crate::Solution;
+use fnv::FnvHashMap;
 use nom::{
     bytes::complete::{tag, take_while1},
     combinator::{eof, map_res},
     sequence::tuple,
     IResult,
 };
-use std::collections::HashMap;
 use std::error::Error;
 use std::num::ParseIntError;
 use std::str::FromStr;
@@ -21,7 +21,7 @@ fn assignment(input: &str) -> Result<(usize, u64), Box<dyn Error + '_>> {
 }
 
 fn write_ram(
-    memory: &mut HashMap<usize, u64>,
+    memory: &mut FnvHashMap<usize, u64>,
     address: usize,
     mut bit_mask: usize,
     floating_mask: usize,
@@ -46,7 +46,7 @@ pub(super) const DAY14: Solution = Solution {
     part1: |input| {
         let mut or_mask = 0;
         let mut and_mask = 0;
-        let mut memory = HashMap::new();
+        let mut memory = FnvHashMap::default();
         for line in input.lines() {
             if let Some(mask) = line.strip_prefix("mask = ") {
                 or_mask = 0;
@@ -76,7 +76,7 @@ pub(super) const DAY14: Solution = Solution {
     part2: |input| {
         let mut or_mask = 0;
         let mut shift_mask = 0;
-        let mut memory = HashMap::new();
+        let mut memory = FnvHashMap::default();
         for line in input.lines() {
             if let Some(mask) = line.strip_prefix("mask = ") {
                 or_mask = 0;

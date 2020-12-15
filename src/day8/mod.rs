@@ -1,5 +1,5 @@
 use crate::Solution;
-use std::collections::HashSet;
+use fnv::FnvHashSet;
 use std::error::Error;
 
 struct Program {
@@ -85,7 +85,7 @@ pub(super) const DAY8: Solution = Solution {
     part1: |input| {
         let program = Program::parse(input)?;
         let mut execution = Execution::new(&program);
-        let mut encountered = HashSet::new();
+        let mut encountered = FnvHashSet::default();
         while execution.step() {
             if !encountered.insert(execution.pc) {
                 return Ok(execution.acc.to_string());
@@ -104,7 +104,7 @@ pub(super) const DAY8: Solution = Solution {
                 _ => continue,
             };
             let mut execution = Execution::new(&program);
-            let mut encountered = HashSet::new();
+            let mut encountered = FnvHashSet::default();
             while execution.step() {
                 if !encountered.insert(execution.pc) {
                     program.instructions[instruction].kind = original_kind;

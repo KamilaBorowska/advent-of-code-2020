@@ -1,5 +1,5 @@
 use crate::Solution;
-use std::collections::HashSet;
+use fnv::FnvHashSet;
 
 pub(super) const DAY6: Solution = Solution {
     part1: |input| {
@@ -9,7 +9,7 @@ pub(super) const DAY6: Solution = Solution {
                 answers
                     .chars()
                     .filter(|c| c.is_alphabetic())
-                    .collect::<HashSet<_>>()
+                    .collect::<FnvHashSet<_>>()
                     .len()
             })
             .sum();
@@ -20,13 +20,13 @@ pub(super) const DAY6: Solution = Solution {
             .split("\n\n")
             .map(|answers| {
                 let mut split_answers = answers.lines();
-                let mut first: HashSet<char> = if let Some(answer) = split_answers.next() {
+                let mut first: FnvHashSet<char> = if let Some(answer) = split_answers.next() {
                     answer.chars().collect()
                 } else {
                     return 0;
                 };
                 for answer in split_answers {
-                    let other_set: HashSet<char> = answer.chars().collect();
+                    let other_set: FnvHashSet<char> = answer.chars().collect();
                     first.retain(|elem| other_set.contains(elem));
                 }
                 first.len()

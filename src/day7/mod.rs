@@ -1,4 +1,5 @@
 use crate::Solution;
+use fnv::FnvHashMap;
 use nom::{
     bytes::complete::take_until,
     bytes::complete::{tag, take_while1},
@@ -9,7 +10,6 @@ use nom::{
     Finish, IResult, Parser,
 };
 use once_cell::unsync::OnceCell;
-use std::collections::HashMap;
 
 fn int(input: &str) -> IResult<&str, usize> {
     map_res(take_while1(|c: char| c.is_digit(10)), str::parse)(input)
@@ -47,7 +47,7 @@ impl<'a> Bag<'a> {
 }
 
 fn contains_golden<'a>(
-    bags: &HashMap<&'a str, (Contents<'a>, OnceCell<bool>)>,
+    bags: &FnvHashMap<&'a str, (Contents<'a>, OnceCell<bool>)>,
     (contents, cell): &(Contents<'a>, OnceCell<bool>),
 ) -> bool {
     *cell.get_or_init(|| {
@@ -58,7 +58,7 @@ fn contains_golden<'a>(
 }
 
 fn count_bags<'a>(
-    bags: &HashMap<&'a str, (Contents<'a>, OnceCell<usize>)>,
+    bags: &FnvHashMap<&'a str, (Contents<'a>, OnceCell<usize>)>,
     (contents, cell): &(Contents<'a>, OnceCell<usize>),
 ) -> usize {
     *cell.get_or_init(|| {
@@ -71,7 +71,7 @@ fn count_bags<'a>(
 
 pub(super) const DAY7: Solution = Solution {
     part1: |input| {
-        let mut bags = HashMap::new();
+        let mut bags = FnvHashMap::default();
         for line in input.lines() {
             let Bag { name, contents } = Bag::parse(line)?;
             bags.insert(name, (contents, OnceCell::new()));
@@ -83,7 +83,7 @@ pub(super) const DAY7: Solution = Solution {
         Ok(count.to_string())
     },
     part2: |input| {
-        let mut bags = HashMap::new();
+        let mut bags = FnvHashMap::default();
         for line in input.lines() {
             let Bag { name, contents } = Bag::parse(line)?;
             bags.insert(name, (contents, OnceCell::new()));

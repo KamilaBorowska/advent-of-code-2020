@@ -1,11 +1,11 @@
 use crate::Solution;
-use std::collections::HashSet;
+use fnv::FnvHashSet;
 
 const TARGET: u16 = 2020;
 
 pub(super) const DAY1: Solution = Solution {
     part1: |input| {
-        let mut encountered = HashSet::new();
+        let mut encountered = FnvHashSet::default();
         for line in input.lines() {
             let number = line.parse::<u16>()?;
             encountered.insert(number);
@@ -20,7 +20,7 @@ pub(super) const DAY1: Solution = Solution {
         let numbers = input
             .lines()
             .map(str::parse)
-            .collect::<Result<HashSet<u16>, _>>()?;
+            .collect::<Result<FnvHashSet<u16>, _>>()?;
         for &a in &numbers {
             for &b in &numbers {
                 if let Some(c) = TARGET.checked_sub(a + b) {

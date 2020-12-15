@@ -5,7 +5,7 @@ image: rust
 
 test:
   script:
-  - cargo test --verbose
+  - cargo test --release --verbose
 
 clippy:
   script:
