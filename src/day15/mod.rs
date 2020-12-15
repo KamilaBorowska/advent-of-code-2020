@@ -3,7 +3,7 @@ use std::convert::TryFrom;
 use std::error::Error;
 
 fn run_game(input: &str, steps: u32) -> Result<String, Box<dyn Error>> {
-    let mut split = input.split(',').map(str::parse::<u32>);
+    let mut split = input.split(',').map(str::parse);
     let mut last_num = split
         .next_back()
         .ok_or("No starting numbers were provided")??;
