@@ -1,23 +1,15 @@
+use crate::parsers::{int, take_until_and_consume};
 use crate::Solution;
 use fnv::FnvHashMap;
 use nom::{
-    bytes::complete::take_until,
-    bytes::complete::{tag, take_while1},
+    bytes::complete::tag,
     character::complete::char,
-    combinator::{eof, map_res, opt},
+    combinator::{eof, opt},
     multi::separated_list1,
     sequence::{separated_pair, terminated, tuple},
-    Finish, IResult, Parser,
+    Finish, Parser,
 };
 use once_cell::unsync::OnceCell;
-
-fn int(input: &str) -> IResult<&str, usize> {
-    map_res(take_while1(|c: char| c.is_digit(10)), str::parse)(input)
-}
-
-fn take_until_and_consume(search_tag: &str) -> impl Fn(&str) -> IResult<&str, &str> + '_ {
-    move |input| terminated(take_until(search_tag), tag(search_tag))(input)
-}
 
 type Contents<'a> = Vec<(usize, &'a str)>;
 

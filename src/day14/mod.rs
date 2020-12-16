@@ -1,18 +1,8 @@
+use crate::parsers::int;
 use crate::Solution;
 use fnv::FnvHashMap;
-use nom::{
-    bytes::complete::{tag, take_while1},
-    combinator::{eof, map_res},
-    sequence::tuple,
-    IResult,
-};
+use nom::{bytes::complete::tag, combinator::eof, sequence::tuple};
 use std::error::Error;
-use std::num::ParseIntError;
-use std::str::FromStr;
-
-fn int<T: FromStr<Err = ParseIntError>>(input: &str) -> IResult<&str, T> {
-    map_res(take_while1(|c: char| c.is_digit(10)), str::parse)(input)
-}
 
 fn assignment(input: &str) -> Result<(usize, u64), Box<dyn Error + '_>> {
     let (_, (_, address, _, value, _)) =

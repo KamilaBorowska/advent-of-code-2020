@@ -1,16 +1,13 @@
+use crate::parsers::int;
 use crate::Solution;
 use nom::{
-    bytes::complete::{tag, take_while1},
+    bytes::complete::tag,
     character::complete::{anychar, char},
-    combinator::map_res,
     sequence::tuple,
-    Finish, IResult,
+    Finish,
 };
 use std::error::Error;
 
-fn int(input: &str) -> IResult<&str, usize> {
-    map_res(take_while1(|c: char| c.is_digit(10)), str::parse)(input)
-}
 struct Rule<'a> {
     first: usize,
     second: usize,
