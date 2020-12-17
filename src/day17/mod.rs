@@ -16,10 +16,8 @@ where
             match state {
                 '#' => {
                     let mut array = T::default();
-                    {
-                        let mut iter = array.into_iter();
-                        *iter.next().ok_or("Missing x")? = x;
-                        *iter.next().ok_or("Missing y")? = y;
+                    for (elem, &value) in array.into_iter().zip(&[x, y]) {
+                        *elem = value;
                     }
                     grid.insert(array);
                 }
