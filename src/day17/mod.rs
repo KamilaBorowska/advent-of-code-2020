@@ -6,7 +6,8 @@ use std::hash::Hash;
 
 fn run_solution<T, I>(input: &str, f: fn(T) -> I) -> Result<String, Box<dyn Error>>
 where
-    T: Copy + Default + Eq + Hash + AsMut<[i8]>,
+    T: Copy + Default + Eq + Hash,
+    for<'a> &'a mut T: IntoIterator<Item = &'a mut i8>,
     I: Iterator<Item = T>,
 {
     let mut grid = FnvHashSet::default();
@@ -15,9 +16,11 @@ where
             match state {
                 '#' => {
                     let mut array = T::default();
-                    let slice = array.as_mut();
-                    slice[0] = x;
-                    slice[1] = y;
+                    {
+                        let mut iter = array.into_iter();
+                        *iter.next().ok_or("Missing x")? = x;
+                        *iter.next().ok_or("Missing y")? = y;
+                    }
                     grid.insert(array);
                 }
                 '.' => {}
