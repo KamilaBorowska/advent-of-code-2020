@@ -1,13 +1,30 @@
 use crate::Solution;
 use fnv::FnvHashSet;
 use itertools::iproduct;
+use std::error::Error;
 use std::hash::Hash;
 
-fn run_solution<T, I>(mut grid: FnvHashSet<T>, f: fn(T) -> I) -> String
+fn run_solution<T, I>(input: &str, f: fn(T) -> I) -> Result<String, Box<dyn Error>>
 where
-    T: Copy + Eq + Hash,
+    T: Copy + Default + Eq + Hash + AsMut<[i8]>,
     I: Iterator<Item = T>,
 {
+    let mut grid = FnvHashSet::default();
+    for (y, line) in (0..).zip(input.lines()) {
+        for (x, state) in (0..).zip(line.chars()) {
+            match state {
+                '#' => {
+                    let mut array = T::default();
+                    let slice = array.as_mut();
+                    slice[0] = x;
+                    slice[1] = y;
+                    grid.insert(array);
+                }
+                '.' => {}
+                _ => return Err("Unrecognized grid state".into()),
+            }
+        }
+    }
     for _ in 0..6 {
         let mut positions_to_check: FnvHashSet<_> = grid.iter().copied().flat_map(f).collect();
         positions_to_check.retain(|pos| {
@@ -23,47 +40,23 @@ where
         });
         grid = positions_to_check;
     }
-    grid.len().to_string()
+    Ok(grid.len().to_string())
 }
 
 const MODIFIERS: [i8; 3] = [-1, 0, 1];
 
 pub(super) const DAY17: Solution = Solution {
     part1: |input| {
-        let mut grid = FnvHashSet::default();
-        for (y, line) in (0..).zip(input.lines()) {
-            for (x, state) in (0..).zip(line.chars()) {
-                match state {
-                    '#' => {
-                        grid.insert((x, y, 0));
-                    }
-                    '.' => {}
-                    _ => return Err("Unrecognized grid state".into()),
-                }
-            }
-        }
-        Ok(run_solution(grid, |(px, py, pz)| {
+        run_solution(input, |[px, py, pz]: [i8; 3]| {
             iproduct!(&MODIFIERS, &MODIFIERS, &MODIFIERS)
-                .map(move |(mx, my, mz)| (px + mx, py + my, pz + mz))
-        }))
+                .map(move |(mx, my, mz)| [px + mx, py + my, pz + mz])
+        })
     },
     part2: |input| {
-        let mut grid = FnvHashSet::default();
-        for (y, line) in (0..).zip(input.lines()) {
-            for (x, state) in (0..).zip(line.chars()) {
-                match state {
-                    '#' => {
-                        grid.insert((x, y, 0, 0));
-                    }
-                    '.' => {}
-                    _ => return Err("Unrecognized grid state".into()),
-                }
-            }
-        }
-        Ok(run_solution(grid, |(px, py, pz, pw)| {
+        run_solution(input, |[px, py, pz, pw]: [i8; 4]| {
             iproduct!(&MODIFIERS, &MODIFIERS, &MODIFIERS, &MODIFIERS)
-                .map(move |(mx, my, mz, mw)| (px + mx, py + my, pz + mz, pw + mw))
-        }))
+                .map(move |(mx, my, mz, mw)| [px + mx, py + my, pz + mz, pw + mw])
+        })
     },
 };
 
