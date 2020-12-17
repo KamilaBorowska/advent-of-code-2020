@@ -1,5 +1,6 @@
 use crate::Solution;
 use fnv::FnvHashSet;
+use itertools::iproduct;
 use std::hash::Hash;
 
 fn run_solution<T, I>(mut grid: FnvHashSet<T>, f: fn(T) -> I) -> String
@@ -42,13 +43,7 @@ pub(super) const DAY17: Solution = Solution {
             }
         }
         Ok(run_solution(grid, |(px, py, pz)| {
-            MODIFIERS
-                .iter()
-                .flat_map(|&x| {
-                    MODIFIERS
-                        .iter()
-                        .flat_map(move |&y| MODIFIERS.iter().map(move |&z| (x, y, z)))
-                })
+            iproduct!(&MODIFIERS, &MODIFIERS, &MODIFIERS)
                 .map(move |(mx, my, mz)| (px + mx, py + my, pz + mz))
         }))
     },
@@ -66,15 +61,7 @@ pub(super) const DAY17: Solution = Solution {
             }
         }
         Ok(run_solution(grid, |(px, py, pz, pw)| {
-            MODIFIERS
-                .iter()
-                .flat_map(|&x| {
-                    MODIFIERS.iter().flat_map(move |&y| {
-                        MODIFIERS
-                            .iter()
-                            .flat_map(move |&z| MODIFIERS.iter().map(move |&w| (x, y, z, w)))
-                    })
-                })
+            iproduct!(&MODIFIERS, &MODIFIERS, &MODIFIERS, &MODIFIERS)
                 .map(move |(mx, my, mz, mw)| (px + mx, py + my, pz + mz, pw + mw))
         }))
     },
