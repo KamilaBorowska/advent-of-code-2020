@@ -5,10 +5,10 @@ authors = ["Konrad Borowski <konrad@borowski.pw>"]
 edition = "2018"
 
 [dependencies]
+clap = { version = "3.2.22", features = ["derive"] }
 fnv = "1.0.7"
 pcre2 = "0.2.3"
 itertools = "0.9.0"
 nom = "6.0.1"
 num-complex = "0.3.1"
 once_cell = "1.5.2"
-structopt = "0.3.21"
